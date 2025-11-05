@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Únete - CBU UC-Sur</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="gradient-bg">
+    <!-- Navegación -->
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="../index.html" class="nav-brand">
+                <div class="logo-circle small">
+                    <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="nav-title">CBU UC-Sur</h1>
+                    <p class="nav-subtitle">Unidos en Cristo</p>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container main-container register-view">
+        <div class="register-container">
+            <div class="register-card">
+                <h2 class="form-header">Únete a CBU UC-Sur</h2>
+                <p class="form-description">
+                    Completa el formulario para formar parte de nuestra comunidad.
+                    Recibirás un código QR para unirte al grupo temporal de nuevos miembros.
+                </p>
+
+                <form id="registrationForm" onsubmit="handleRegistration(event)">
+                    <input type="text" class="input-field" id="regName" placeholder="Nombre completo" required>
+                    <input type="email" class="input-field" id="regEmail" placeholder="Correo electrónico" required>
+                    <input type="tel" class="input-field" id="regPhone" placeholder="Teléfono" required>
+                    <input type="text" class="input-field" id="regUniversity" placeholder="Universidad" required>
+                    <input type="text" class="input-field" id="regCareer" placeholder="Carrera" required>
+                    <button type="submit" class="btn register-btn">Registrarme</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

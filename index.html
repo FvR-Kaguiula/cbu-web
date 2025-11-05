@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CBU U-Sur - Christian Believers Union</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js"></script>
+    
+    <!-- Firebase Auth Script -->
+    <script src="js/firebase-auth.js"></script>
+    
+    <!-- Posts y Media Handler Scripts -->
+    <script src="js/posts.js"></script>
+    <script src="js/media-handler.js"></script>
+  </head>
+  <body class="gradient-bg min-h-screen">
+    <!-- Navegación -->
+    <nav class="main-nav">
+      <div class="container nav-container">
+        <div class="nav-brand">
+          <div class="logo-circle small">
+            <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h1 class="nav-title">CBU UC-Sur</h1>
+            <p class="nav-subtitle">Unidos en Cristo</p>
+          </div>
+        </div>
+
+        <button
+          id="menuToggle"
+          style="display: none; background: none; border: none; cursor: pointer"
+        >
+          <svg
+            id="menuIcon"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+          <svg
+            id="closeIcon"
+            class="hidden"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <div
+          id="desktopNav"
+          class="desktop-nav"
+          style="display: flex; gap: 0.5rem; align-items: center"
+        >
+          <button class="nav-link" onclick="showView('home')">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+            Inicio
+          </button>
+          <button class="nav-link" onclick="window.location.href='pages/join.html'">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+              />
+            </svg>
+            Únete
+          </button>
+          <button
+            id="feedNav"
+            class="nav-link hidden"
+            onclick="showView('feed')"
+          >
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+              />
+            </svg>
+            Comunidad
+          </button>
+          <button
+            id="adminNav"
+            class="nav-link hidden"
+            onclick="showView('admin')"
+          >
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"
+              />
+            </svg>
+            Admin
+          </button>
+          <button
+            id="loginBtn"
+            class="btn nav-btn"
+            onclick="window.location.href='pages/login.html'"
+          >
+            Iniciar Sesión
+          </button>
+          <button
+            id="logoutBtn"
+            class="btn nav-btn hidden"
+            onclick="logout()"
+          >
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
+
+      <div id="mobileMenu" class="mobile-menu">
+        <button class="nav-link" onclick="showView('home'); toggleMobileMenu()">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </svg>
+          Inicio
+        </button>
+        <button class="nav-link" onclick="window.location.href='pages/join.html'; toggleMobileMenu()">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+            />
+          </svg>
+          Únete
+        </button>
+        <button
+          id="feedNavMobile"
+          class="nav-link hidden"
+          onclick="showView('feed'); toggleMobileMenu()"
+        >
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+            />
+          </svg>
+          Comunidad
+        </button>
+        <button
+          id="adminNavMobile"
+          class="nav-link hidden"
+          onclick="showView('admin'); toggleMobileMenu()"
+        >
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"
+            />
+          </svg>
+          Admin
+        </button>
+        <button
+          id="loginBtnMobile"
+          class="btn btn-primary"
+          onclick="showView('login'); toggleMobileMenu()"
+        >
+          Iniciar Sesión
+        </button>
+        <button
+          id="logoutBtnMobile"
+          class="btn btn-primary hidden"
+          onclick="logout(); toggleMobileMenu()"
+        >
+          Cerrar Sesión
+        </button>
+      </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container main-container">
+      <!-- Vista Home -->
+      <div id="homeView" class="view">
+        <div class="hero">
+          <div class="logo-circle">
+            <svg width="48" height="48" fill="white" viewBox="0 0 24 24">
+              <path
+                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+              />
+            </svg>
+          </div>
+          <h2 class="hero-title">CBU U-Sur</h2>
+          <p class="hero-subtitle">
+            Christian Believers Union - Universidad del Sur
+          </p>
+          <p class="hero-quote">
+            "Porque donde dos o tres se reúnen en mi nombre, allí estoy yo en
+            medio de ellos" - Mateo 18:20
+          </p>
+        </div>
+
+        <div class="section-card">
+          <h3 class="section-title">¿Quiénes Somos?</h3>
+          <p class="section-text">
+            Somos una comunidad de estudiantes universitarios unidos por la fe
+            en Cristo. CBU U-Sur es un espacio donde jóvenes cristianos pueden
+            conectar, crecer espiritualmente y apoyarse mutuamente en su caminar
+            universitario y espiritual.
+          </p>
+        </div>
+
+        <div class="section-card gradient-bg">
+          <h3 class="section-title blue">¿Qué es CBU U-Sur?</h3>
+          <div class="info-container">
+            <p>
+              <strong>Misión:</strong> Crear un espacio de comunión cristiana en
+              el ambiente universitario donde los estudiantes puedan fortalecer
+              su fe, compartir experiencias y crecer juntos en el amor de
+              Cristo.
+            </p>
+            <p>
+              <strong>Visión:</strong> Ser una comunidad vibrante de creyentes
+              que impacte positivamente la universidad y la sociedad, siendo luz
+              y sal en nuestro entorno.
+            </p>
+            <p>
+              <strong>Valores:</strong> Fe, Comunidad, Autenticidad, Servicio y
+              Crecimiento Espiritual.
+            </p>
+          </div>
+        </div>
+
+        <div class="section-card gradient-purple-blue cta-section">
+          <h3 class="cta-title">¿Listo para unirte?</h3>
+          <p class="cta-subtitle">
+            Sé parte de esta comunidad de fe y crecimiento
+          </p>
+          <button class="cta-button" onclick="window.location.href='pages/join.html'">
+            Únete Ahora
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTINUARÁ EN PARTE 2 -->
+    </div>
+
+    <script>
+      // Estado global de la aplicación
+      let appState = {
+        currentView: "home",
+        isAuthenticated: false,
+        isAdmin: false,
+        currentUser: null,
+        posts: [],
+        users: [],
+      };
+
+      // Cargar datos al iniciar
+      window.addEventListener("DOMContentLoaded", () => {
+        loadData();
+        updateUI();
+        setupResponsive();
+      });
+
+      // CONTINUARÁ EN PARTE 2 CON MÁS JAVASCRIPT
+    </script>
+    <!-- PARTE 2: VISTAS DE JOIN, LOGIN Y FEED -->
+    <!-- Esta parte va después de la Vista Home en el archivo HTML -->
+
+    <!-- Vista Únete -->
+    <div id="joinView" class="view hidden register-view">
+      <div class="register-container">
+        <div class="register-card">
+          <h2 class="form-header">
+            Únete a CBU UC-Sur
+          </h2>
+          <p style="color: #6b7280; margin-bottom: 2rem">
+            Completa el formulario para formar parte de nuestra comunidad.
+            Recibirás un código QR para unirte al grupo temporal de nuevos
+            miembros.
+          </p>
+
+          <form id="registrationForm" onsubmit="handleRegistration(event)">
+            <input
+              type="text"
+              class="input-field"
+              id="regName"
+              placeholder="Nombre completo"
+              required
+            />
+            <input
+              type="email"
+              class="input-field"
+              id="regEmail"
+              placeholder="Correo electrónico"
+              required
+            />
+            <input
+              type="tel"
+              class="input-field"
+              id="regPhone"
+              placeholder="Teléfono"
+              required
+            />
+            <input
+              type="text"
+              class="input-field"
+              id="regUniversity"
+              placeholder="Universidad"
+              required
+            />
+            <input
+              type="text"
+              class="input-field"
+              id="regCareer"
+              placeholder="Carrera"
+              required
+            />
+            <button type="submit" class="btn register-btn">
+              Registrarme
+            </button>
+          </form>
+
+          <div id="qrSection" class="hidden qr-container">
+            <h4 class="qr-title">Únete a nuestro grupo de WhatsApp</h4>
+            <p class="qr-description">Escanea el código QR o usa el enlace para unirte al grupo temporal</p>
+            
+            <div class="qr-code">
+              <!-- Aquí puedes reemplazar el contenido con una imagen real del QR -->
+              <img src="qr-whatsapp.png" alt="QR WhatsApp" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'qr-placeholder\'><div class=\'emoji\'>📱</div><div class=\'text\'>Código QR</div></div>'">
+            </div>
+            
+            <div class="section-card" style="margin-top: 1.5rem;">
+              <p class="section-title" style="font-size: 1.25rem;">
+                Enlace directo al grupo:
+              </p>
+              <a href="https://chat.whatsapp.com/CBU-USur-Nuevos-Miembros" 
+                 target="_blank" 
+                 class="btn btn-primary" 
+                 style="width: 100%; margin-top: 1rem; background: #25D366;">
+                Unirse al grupo de WhatsApp
+              </a>
+            </div>
+            
+            <div class="pending-badge" style="margin-top: 2rem; justify-content: center;">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+              </svg>
+              Una vez validado tu registro, serás añadido al grupo principal
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista Login -->
+    <div id="loginView" class="view hidden">
+      <div style="max-width: 500px; margin: 0 auto">
+        <div class="login-card">
+          <div style="text-align: center; margin-bottom: 2rem">
+            <div
+              style="
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 1rem;
+                background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
+                <path
+                  d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"
+                />
+              </svg>
+            </div>
+            <h2 style="font-size: 2rem; font-weight: 700; color: #1f2937">
+              Iniciar Sesión
+            </h2>
+            <p style="color: #6b7280; margin-top: 0.5rem">
+              Accede a tu cuenta de CBU U-Sur
+            </p>
+          </div>
+
+          <form id="loginForm" onsubmit="handleLogin(event)">
+            <input
+              type="email"
+              class="input-field"
+              id="loginEmail"
+              placeholder="Correo electrónico"
+              required
+            />
+            <input
+              type="password"
+              class="input-field"
+              id="loginPassword"
+              placeholder="Contraseña"
+              required
+            />
+            <button type="submit" class="btn btn-primary" style="width: 100%">
+              Iniciar Sesión
+            </button>
+          </form>
+
+          <div
+            style="
+              margin-top: 1.5rem;
+              padding: 1rem;
+              background: #dbeafe;
+              border-radius: 0.5rem;
+            "
+          >
+            <p
+              style="
+                font-size: 0.875rem;
+                color: #374151;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+              "
+            >
+              Cuentas de prueba:
+            </p>
+            <p style="font-size: 0.75rem; color: #6b7280">
+              Admin: admin@cbu.com / admin123
+            </p>
+            <p style="font-size: 0.75rem; color: #6b7280">
+              Usuario: user@cbu.com / user123
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista Feed -->
+    <div id="feedView" class="view hidden">
+      <div style="max-width: 800px; margin: 0 auto">
+        <!-- Crear Publicación -->
+        <div id="createPostSection" class="card hidden">
+          <h3
+            style="
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: #1f2937;
+              margin-bottom: 1rem;
+            "
+          >
+            Crear Publicación
+          </h3>
+          <form id="postForm" onsubmit="handleCreatePost(event)">
+            <input
+              type="text"
+              class="input-field"
+              id="postTitle"
+              placeholder="Título de la publicación"
+              required
+            />
+            <textarea
+              class="input-field"
+              id="postContent"
+              placeholder="Comparte tu reflexión, testimonio o experiencia..."
+              style="height: 100px; resize: vertical"
+              required
+            ></textarea>
+            <div class="media-input">
+              <input
+                type="url"
+                class="input-field"
+                id="postMedia"
+                placeholder="URL de imagen o video (opcional)"
+                onchange="handleMediaPreview()"
+              />
+              <div class="media-preview hidden" id="mediaPreview">
+                <!-- Preview se mostrará aquí -->
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%">
+              Publicar
+            </button>
+          </form>
+        </div>
+
+        <!-- Loading -->
+        <div
+          id="feedLoading"
+          class="status-card"
+        >
+          <div class="loading-spinner"></div>
+          <p style="color: #6b7280; margin-top: 1rem">
+            Cargando publicaciones...
+          </p>
+        </div>
+
+        <!-- Sin publicaciones -->
+        <div
+          id="noPosts"
+          class="status-card hidden"
+        >
+          <svg
+            width="64"
+            height="64"
+            fill="#d1d5db"
+            viewBox="0 0 24 24"
+            style="margin: 0 auto 1rem"
+          >
+            <path
+              d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+            />
+          </svg>
+          <p style="font-size: 1.125rem; color: #6b7280">
+            Aún no hay publicaciones
+          </p>
+          <p style="color: #9ca3af">¡Sé el primero en compartir!</p>
+        </div>
+
+        <!-- Contenedor de posts -->
+        <div id="postsContainer"></div>
+      </div>
+    </div>
+
+    <!-- CONTINUARÁ EN PARTE 3 CON VISTA ADMIN -->
+
+    <!-- SCRIPT CONTINUACIÓN - JavaScript Functions Part 1 -->
+    <script>
+      // Funciones de almacenamiento local (simulando window.storage)
+      const storage = {
+        get: (key) => {
+          const data = localStorage.getItem(key);
+          return data ? { value: data } : null;
+        },
+        set: (key, value) => {
+          localStorage.setItem(key, value);
+          return { value };
+        },
+        delete: (key) => {
+          localStorage.removeItem(key);
+          return { deleted: true };
+        },
+      };
+
+      // Cargar datos
+      function loadData() {
+        try {
+          const postsData = storage.get("cbu-posts");
+          const usersData = storage.get("cbu-users");
+
+          if (postsData) {
+            appState.posts = JSON.parse(postsData.value);
+          }
+          if (usersData) {
+            appState.users = JSON.parse(usersData.value);
+          }
+        } catch (error) {
+          console.log("Primera carga - inicializando datos");
+        }
+      }
+
+      // Guardar posts
+      function savePosts(posts) {
+        appState.posts = posts;
+        storage.set("cbu-posts", JSON.stringify(posts));
+      }
+
+      // Guardar usuarios
+      function saveUsers(users) {
+        appState.users = users;
+        storage.set("cbu-users", JSON.stringify(users));
+      }
+
+      // Mostrar vista
+      function showView(viewName) {
+        // Ocultar todas las vistas
+        document.querySelectorAll(".view").forEach((view) => {
+          view.classList.add("hidden");
+        });
+
+        // Mostrar vista seleccionada
+        document.getElementById(viewName + "View").classList.remove("hidden");
+        appState.currentView = viewName;
+
+        // Actualizar navegación
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          if(link.getAttribute('data-view') === viewName) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+
+        // Si es vista feed, cargar publicaciones
+        if (viewName === "feed") {
+          loadFeed();
+        }
+
+        // Scroll suave al inicio
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+
+      // Toggle menú móvil
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById("mobileMenu");
+        const menuIcon = document.getElementById("menuIcon");
+        const closeIcon = document.getElementById("closeIcon");
+
+        if (mobileMenu.classList.contains("show")) {
+          mobileMenu.classList.remove("show");
+          menuIcon.classList.remove("hidden");
+          closeIcon.classList.add("hidden");
+        } else {
+          mobileMenu.classList.add("show");
+          menuIcon.classList.add("hidden");
+          closeIcon.classList.remove("hidden");
+        }
+      }
+
+      // Setup responsive
+      function setupResponsive() {
+        const menuToggle = document.getElementById("menuToggle");
+
+        function checkWidth() {
+          if (window.innerWidth <= 768) {
+            menuToggle.style.display = "block";
+          } else {
+            menuToggle.style.display = "none";
+            document.getElementById("mobileMenu").classList.remove("show");
+            document.getElementById("menuIcon").classList.remove("hidden");
+            document.getElementById("closeIcon").classList.add("hidden");
+          }
+        }
+
+        checkWidth();
+        window.addEventListener("resize", checkWidth);
+
+        menuToggle.addEventListener("click", toggleMobileMenu);
+      }
+
+      // Handle Login
+      function handleLogin(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+
+        if (email === "admin@cbu.com" && password === "admin123") {
+          appState.isAuthenticated = true;
+          appState.isAdmin = true;
+          appState.currentUser = { name: "Administrador CBU", email: email };
+          updateUI();
+          showView("feed");
+        } else if (email === "user@cbu.com" && password === "user123") {
+          appState.isAuthenticated = true;
+          appState.isAdmin = false;
+          appState.currentUser = { name: "Miembro CBU", email: email };
+          updateUI();
+          showView("feed");
+        } else {
+          alert(
+            "Credenciales incorrectas.\n\nPrueba:\nAdmin: admin@cbu.com / admin123\nUsuario: user@cbu.com / user123"
+          );
+        }
+      }
+
+      // Handle Logout
+      function logout() {
+        appState.isAuthenticated = false;
+        appState.isAdmin = false;
+        appState.currentUser = null;
+        updateUI();
+        showView("home");
+
+        // Limpiar formulario
+        document.getElementById("loginForm").reset();
+      }
+
+      // Handle Registration
+      function handleRegistration(event) {
+        event.preventDefault();
+
+        const newUser = {
+          id: Date.now(),
+          name: document.getElementById("regName").value,
+          email: document.getElementById("regEmail").value,
+          phone: document.getElementById("regPhone").value,
+          university: document.getElementById("regUniversity").value,
+          career: document.getElementById("regCareer").value,
+          registeredAt: new Date().toISOString(),
+          approved: false,
+        };
+
+        const updatedUsers = [...appState.users, newUser];
+        saveUsers(updatedUsers);
+
+        // Mostrar QR
+        document.getElementById("registrationForm").classList.add("hidden");
+        document.getElementById("qrSection").classList.remove("hidden");
+
+        setTimeout(() => {
+          alert(
+            "¡Registro exitoso! Únete al grupo temporal escaneando el QR o usando el enlace proporcionado."
+          );
+          document.getElementById("registrationForm").reset();
+          document
+            .getElementById("registrationForm")
+            .classList.remove("hidden");
+          document.getElementById("qrSection").classList.add("hidden");
+        }, 5000);
+      }
+
+      // Handle Create Post
+      function handleCreatePost(event) {
+        event.preventDefault();
+
+        if (!appState.isAuthenticated) return;
+
+        const post = {
+          id: Date.now(),
+          title: document.getElementById("postTitle").value,
+          content: document.getElementById("postContent").value,
+          image: document.getElementById("postImage").value,
+          author: appState.currentUser.name,
+          authorEmail: appState.currentUser.email,
+          createdAt: new Date().toISOString(),
+          likes: 0,
+          comments: [],
+          approved: appState.isAdmin,
+        };
+
+        const updatedPosts = [post, ...appState.posts];
+        savePosts(updatedPosts);
+
+        document.getElementById("postForm").reset();
+        alert(
+          appState.isAdmin
+            ? "¡Publicación creada!"
+            : "¡Publicación enviada para aprobación!"
+        );
+
+        loadFeed();
+      }
+
+      // Handle Like
+      function handleLike(postId) {
+        const updatedPosts = appState.posts.map((post) =>
+          post.id === postId ? { ...post, likes: post.likes + 1 } : post
+        );
+        savePosts(updatedPosts);
+        loadFeed();
+      }
+
+      // Handle Comment
+      function handleComment(postId) {
+        const commentInput = document.getElementById("comment-" + postId);
+        const commentText = commentInput.value.trim();
+
+        if (!commentText) return;
+
+        const updatedPosts = appState.posts.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                comments: [
+                  ...post.comments,
+                  {
+                    id: Date.now(),
+                    author: appState.currentUser.name,
+                    text: commentText,
+                    createdAt: new Date().toISOString(),
+                  },
+                ],
+              }
+            : post
+        );
+
+        savePosts(updatedPosts);
+        commentInput.value = "";
+        loadFeed();
+      }
+
+      // Actualizar UI
+      function updateUI() {
+        // Actualizar botones de navegación
+        const feedNavs = [
+          document.getElementById("feedNav"),
+          document.getElementById("feedNavMobile"),
+        ];
+        const adminNavs = [
+          document.getElementById("adminNav"),
+          document.getElementById("adminNavMobile"),
+        ];
+        const loginBtns = [
+          document.getElementById("loginBtn"),
+          document.getElementById("loginBtnMobile"),
+        ];
+        const logoutBtns = [
+          document.getElementById("logoutBtn"),
+          document.getElementById("logoutBtnMobile"),
+        ];
+
+        if (appState.isAuthenticated) {
+          feedNavs.forEach((nav) => nav && nav.classList.remove("hidden"));
+          loginBtns.forEach((btn) => btn && btn.classList.add("hidden"));
+          logoutBtns.forEach((btn) => btn && btn.classList.remove("hidden"));
+
+          if (appState.isAdmin) {
+            adminNavs.forEach((nav) => nav && nav.classList.remove("hidden"));
+          } else {
+            adminNavs.forEach((nav) => nav && nav.classList.add("hidden"));
+          }
+        } else {
+          feedNavs.forEach((nav) => nav && nav.classList.add("hidden"));
+          adminNavs.forEach((nav) => nav && nav.classList.add("hidden"));
+          loginBtns.forEach((btn) => btn && btn.classList.remove("hidden"));
+          logoutBtns.forEach((btn) => btn && btn.classList.add("hidden"));
+        }
+
+        // Mostrar sección de crear post si está autenticado
+        const createPostSection = document.getElementById("createPostSection");
+        if (createPostSection) {
+          if (appState.isAuthenticated) {
+            createPostSection.classList.remove("hidden");
+          } else {
+            createPostSection.classList.add("hidden");
+          }
+        }
+      }
+
+      // CONTINUARÁ EN PARTE 3 CON loadFeed() y VISTA ADMIN
+    
+    </script>
+<!-- PARTE 3: VISTA ADMIN Y FUNCIONES COMPLETAS -->
+<!-- Esta parte va después de la Vista Feed en el archivo HTML -->
+
+        <!-- Vista Admin -->
+        <div id="adminView" class="view hidden">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                
+                <!-- Header Admin -->
+                <div class="admin-card gradient-purple-blue" style="color: white; margin-bottom: 2rem;">
+                    <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Panel de Administración</h2>
+                    <p>Gestiona usuarios y publicaciones de CBU UC-Sur</p>
+                </div>
+
+                <!-- Usuarios Pendientes -->
+                <div class="admin-card">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem;">
+                        Usuarios Pendientes de Aprobación
+                    </h3>
+                    <div id="pendingUsersContainer"></div>
+                </div>
+
+                <!-- Miembros Activos -->
+                <div class="admin-card">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem;">
+                        Miembros Activos
+                    </h3>
+                    <div id="activeUsersContainer"></div>
+                </div>
+
+                <!-- Publicaciones Pendientes -->
+                <div class="admin-card">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem;">
+                        Publicaciones Pendientes
+                    </h3>
+                    <div id="pendingPostsContainer"></div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- Cierre del container principal -->
+
+    <!-- SCRIPT CONTINUACIÓN - JavaScript Functions Part 2 -->
+    <script>
+        // Load Feed - Renderizar publicaciones
+        function loadFeed() {
+            const feedLoading = document.getElementById('feedLoading');
+            const noPosts = document.getElementById('noPosts');
+            const postsContainer = document.getElementById('postsContainer');
+            
+            // Mostrar loading
+            feedLoading.classList.remove('hidden');
+            noPosts.classList.add('hidden');
+            postsContainer.innerHTML = '';
+            
+            setTimeout(() => {
+                feedLoading.classList.add('hidden');
+                
+                // Filtrar posts según rol
+                const visiblePosts = appState.isAdmin 
+                    ? appState.posts 
+                    : appState.posts.filter(p => p.approved);
+                
+                if (visiblePosts.length === 0) {
+                    noPosts.classList.remove('hidden');
+                    return;
+                }
+                
+                // Renderizar posts
+                visiblePosts.forEach(post => {
+                    const postElement = createPostElement(post);
+                    postsContainer.appendChild(postElement);
+                });
+            }, 500);
+        }
+
+        // Crear elemento de post
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            
+            const formattedDate = new Date(post.createdAt).toLocaleDateString('es-ES', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            postDiv.innerHTML = `
+                <!-- Header del post -->
+                <div class="post-header">
+                    <div>
+                        <h4 style="font-weight: 700; color: #1f2937;">${post.author}</h4>
+                        <p style="font-size: 0.875rem; color: #6b7280;">${formattedDate}</p>
+                    </div>
+                    ${appState.isAdmin ? `
+                        <div style="display: flex; gap: 0.5rem;">
+                            ${!post.approved ? `
+                                <button onclick="approvePost(${post.id})" class="btn-icon" style="color: #10b981;" title="Aprobar">
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                </button>
+                            ` : ''}
+                            <button onclick="deletePost(${post.id})" class="btn-icon" style="color: #ef4444;" title="Eliminar">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <!-- Contenido del post -->
+                <div class="post-content">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">
+                        ${post.title}
+                    </h3>
+                    <p style="color: #374151; white-space: pre-wrap; line-height: 1.6;">
+                        ${post.content}
+                    </p>
+                    ${post.image ? `
+                        <img src="${post.image}" alt="${post.title}" 
+                             style="margin-top: 1rem; border-radius: 0.5rem; width: 100%; max-height: 400px; object-fit: cover;"
+                             onerror="this.style.display='none'">
+                    ` : ''}
+                    ${!post.approved ? `
+                        <div class="pending-badge">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                            </svg>
+                            Pendiente de aprobación
+                        </div>
+                    ` : ''}
+                </div>
+
+                <!-- Acciones -->
+                <div class="post-actions">
+                    <button class="action-btn" onclick="handleLike(${post.id})">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <span>${post.likes}</span>
+                    </button>
+                    <button class="action-btn">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                        </svg>
+                        <span>${post.comments.length}</span>
+                    </button>
+                </div>
+
+                <!-- Comentarios -->
+                ${post.comments.length > 0 ? `
+                    <div style="padding: 0 1rem 1rem;">
+                        ${post.comments.map(comment => `
+                            <div class="comment">
+                                <p style="font-weight: 700; font-size: 0.875rem; color: #1f2937; margin-bottom: 0.25rem;">
+                                    ${comment.author}
+                                </p>
+                                <p style="color: #374151; font-size: 0.875rem;">
+                                    ${comment.text}
+                                </p>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+
+                <!-- Agregar comentario -->
+                ${appState.isAuthenticated ? `
+                    <div style="padding: 0 1rem 1rem;">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" 
+                                   id="comment-${post.id}" 
+                                   placeholder="Escribe un comentario..." 
+                                   style="flex: 1; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.875rem;"
+                                   onkeypress="if(event.key === 'Enter') handleComment(${post.id})">
+                            <button onclick="handleComment(${post.id})" 
+                                    style="background: #a855f7; color: white; border: none; padding: 0.5rem; border-radius: 0.5rem; cursor: pointer;">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            return postDiv;
+        }
+
+        // Aprobar post
+        function approvePost(postId) {
+            if (!appState.isAdmin) return;
+            
+            const updatedPosts = appState.posts.map(post =>
+                post.id === postId ? { ...post, approved: true } : post
+            );
+            savePosts(updatedPosts);
+            
+            if (appState.currentView === 'feed') {
+                loadFeed();
+            } else if (appState.currentView === 'admin') {
+                loadAdminView();
+            }
+        }
+
+        // Eliminar post
+        function deletePost(postId) {
+            if (!appState.isAdmin) return;
+            
+            if (confirm('¿Estás seguro de eliminar esta publicación?')) {
+                const updatedPosts = appState.posts.filter(post => post.id !== postId);
+                savePosts(updatedPosts);
+                
+                if (appState.currentView === 'feed') {
+                    loadFeed();
+                } else if (appState.currentView === 'admin') {
+                    loadAdminView();
+                }
+            }
+        }
+
+        // Aprobar usuario
+        function approveUser(userId) {
+            if (!appState.isAdmin) return;
+            
+            const updatedUsers = appState.users.map(user =>
+                user.id === userId ? { ...user, approved: true } : user
+            );
+            saveUsers(updatedUsers);
+            loadAdminView();
+        }
+
+        // Eliminar usuario
+        function deleteUser(userId) {
+            if (!appState.isAdmin) return;
+            
+            if (confirm('¿Estás seguro de eliminar este usuario?')) {
+                const updatedUsers = appState.users.filter(user => user.id !== userId);
+                saveUsers(updatedUsers);
+                loadAdminView();
+            }
+        }
+
+        // Cargar vista admin
+        function loadAdminView() {
+            if (!appState.isAdmin) return;
+            
+            // Usuarios pendientes
+            const pendingUsersContainer = document.getElementById('pendingUsersContainer');
+            const pendingUsers = appState.users.filter(u => !u.approved);
+            
+            if (pendingUsers.length === 0) {
+                pendingUsersContainer.innerHTML = '<p style="color: #6b7280;">No hay usuarios pendientes</p>';
+            } else {
+                pendingUsersContainer.innerHTML = pendingUsers.map(user => `
+                    <div class="user-card">
+                        <div>
+                            <p style="font-weight: 700; color: #1f2937;">${user.name}</p>
+                            <p style="font-size: 0.875rem; color: #6b7280;">${user.email}</p>
+                            <p style="font-size: 0.875rem; color: #9ca3af;">${user.university} - ${user.career}</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="approveUser(${user.id})" class="btn-success">
+                                Aprobar
+                            </button>
+                            <button onclick="deleteUser(${user.id})" class="btn-danger">
+                                Rechazar
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Usuarios activos
+            const activeUsersContainer = document.getElementById('activeUsersContainer');
+            const activeUsers = appState.users.filter(u => u.approved);
+            
+            if (activeUsers.length === 0) {
+                activeUsersContainer.innerHTML = '<p style="color: #6b7280;">No hay miembros activos aún</p>';
+            } else {
+                activeUsersContainer.innerHTML = activeUsers.map(user => `
+                    <div class="user-card">
+                        <div>
+                            <p style="font-weight: 700; color: #1f2937;">${user.name}</p>
+                            <p style="font-size: 0.875rem; color: #6b7280;">${user.email}</p>
+                            <p style="font-size: 0.875rem; color: #9ca3af;">${user.university} - ${user.career}</p>
+                        </div>
+                        <button onclick="deleteUser(${user.id})" class="btn-icon" style="color: #ef4444;">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            // Publicaciones pendientes
+            const pendingPostsContainer = document.getElementById('pendingPostsContainer');
+            const pendingPosts = appState.posts.filter(p => !p.approved);
+            
+            if (pendingPosts.length === 0) {
+                pendingPostsContainer.innerHTML = '<p style="color: #6b7280;">No hay publicaciones pendientes</p>';
+            } else {
+                pendingPostsContainer.innerHTML = pendingPosts.map(post => `
+                    <div style="border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <p style="font-weight: 700; color: #1f2937; font-size: 1.125rem;">${post.title}</p>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button onclick="approvePost(${post.id})" class="btn-icon" style="color: #10b981;">
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                </button>
+                                <button onclick="deletePost(${post.id})" class="btn-icon" style="color: #ef4444;">
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem;">Por: ${post.author}</p>
+                        <p style="color: #374151; font-size: 0.875rem;">
+                            ${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}
+                        </p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Modificar showView para cargar admin
+        const originalShowView = showView;
+        showView = function(viewName) {
+            originalShowView(viewName);
+            
+            if (viewName === 'admin' && appState.isAdmin) {
+                loadAdminView();
+            }
+        };
+
+        // Inicializar datos de ejemplo (solo primera vez)
+        function initializeSampleData() {
+            const hasData = storage.get('cbu-initialized');
+            
+            if (!hasData) {
+                // Datos de ejemplo
+                const samplePosts = [
+                    {
+                        id: Date.now() - 3000,
+                        title: "Bienvenidos a CBU U-Sur",
+                        content: "Estamos emocionados de iniciar esta comunidad donde podemos crecer juntos en fe y compartir nuestras experiencias universitarias. ¡Que Dios bendiga este espacio!",
+                        image: "",
+                        author: "Administrador CBU",
+                        authorEmail: "admin@cbu.com",
+                        createdAt: new Date(Date.now() - 86400000).toISOString(),
+                        likes: 5,
+                        comments: [
+                            {
+                                id: Date.now() - 2000,
+                                author: "Miembro CBU",
+                                text: "¡Qué bendición! Esperando con ansias crecer junto a ustedes.",
+                                createdAt: new Date().toISOString()
+                            }
+                        ],
+                        approved: true
+                    },
+                    {
+                        id: Date.now() - 2000,
+                        title: "Reflexión del día",
+                        content: "\"Encomienda a Jehová tu camino, y confía en él; y él hará.\" - Salmos 37:5\n\nEn medio de los exámenes y proyectos, recordemos que Dios tiene el control.",
+                        image: "",
+                        author: "Administrador CBU",
+                        authorEmail: "admin@cbu.com",
+                        createdAt: new Date(Date.now() - 43200000).toISOString(),
+                        likes: 8,
+                        comments: [],
+                        approved: true
+                    }
+                ];
+                
+                const sampleUsers = [
+                    {
+                        id: Date.now() - 1000,
+                        name: "María González",
+                        email: "maria@example.com",
+                        phone: "999888777",
+                        university: "Universidad del Sur",
+                        career: "Ingeniería",
+                        registeredAt: new Date().toISOString(),
+                        approved: false
+                    }
+                ];
+                
+                savePosts(samplePosts);
+                saveUsers(sampleUsers);
+                storage.set('cbu-initialized', 'true');
+            }
+        }
+
+        // Llamar a inicialización en DOMContentLoaded
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeSampleData();
+            loadData();
+            updateUI();
+            setupResponsive();
+        });
+    </script>
+    <!-- PARTE 4: BOTÓN WHATSAPP FLOTANTE Y MEJORAS -->
+<!-- Esta parte va AL FINAL, después de la Parte 3, antes de </body></html> -->
+
+    <!-- Botón flotante de WhatsApp (solo para usuarios autenticados) -->
+    <div id="whatsappButton" class="hidden" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        animation: fadeIn 0.5s ease-in-out;
+    ">
+        <a href="https://chat.whatsapp.com/CBU-USur-Grupo-Principal" 
+           target="_blank"
+           title="Únete al grupo de WhatsApp"
+           style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        "
+        onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 20px rgba(37, 211, 102, 0.6)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(37, 211, 102, 0.4)';">
+            <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg>
+        </a>
+        
+        <!-- Tooltip -->
+        <div style="
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            white-space: nowrap;
+            font-size: 0.875rem;
+            color: #374151;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        " id="whatsappTooltip">
+            Únete al grupo de WhatsApp
+        </div>
+    </div>
+
+    <!-- Estilos adicionales -->
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        #whatsappButton:hover #whatsappTooltip {
+            opacity: 1;
+        }
+
+        #whatsappButton a {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsivo para móviles */
+        @media (max-width: 768px) {
+            #whatsappButton {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            #whatsappButton a {
+                width: 56px;
+                height: 56px;
+            }
+            
+            #whatsappButton svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        /* Badge de notificación (opcional para alertas) */
+        .whatsapp-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+    </style>
+
+    <!-- Script adicional para el botón de WhatsApp -->
+    <script>
+        // Función para mostrar/ocultar botón de WhatsApp según estado de autenticación
+        function updateWhatsAppButton() {
+            const whatsappButton = document.getElementById('whatsappButton');
+            
+            if (appState.isAuthenticated) {
+                whatsappButton.classList.remove('hidden');
+            } else {
+                whatsappButton.classList.add('hidden');
+            }
+        }
+
+        // Modificar la función updateUI para incluir el botón de WhatsApp
+        const originalUpdateUI = updateUI;
+        updateUI = function() {
+            originalUpdateUI();
+            updateWhatsAppButton();
+        };
+
+        // Modificar handleRegistration para incluir enlace de WhatsApp después del registro
+        const originalHandleRegistration = handleRegistration;
+        handleRegistration = function(event) {
+            event.preventDefault();
+            
+            const newUser = {
+                id: Date.now(),
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                phone: document.getElementById('regPhone').value,
+                university: document.getElementById('regUniversity').value,
+                career: document.getElementById('regCareer').value,
+                registeredAt: new Date().toISOString(),
+                approved: false
+            };
+            
+            const updatedUsers = [...appState.users, newUser];
+            saveUsers(updatedUsers);
+            
+            // Mostrar QR con enlace mejorado
+            const qrSection = document.getElementById('qrSection');
+            qrSection.innerHTML = `
+                <div class="qr-code">
+                    <div style="text-align: center;">
+                        <div style="font-size: 4rem; margin-bottom: 0.5rem;">📱</div>
+                        <p style="font-size: 0.875rem; color: #6b7280;">Código QR</p>
+                        <p style="font-size: 0.75rem; color: #9ca3af;">Escanea para unirte</p>
+                    </div>
+                </div>
+                <div style="background: #dcfce7; padding: 1.5rem; border-radius: 0.5rem; margin-top: 1.5rem; border: 2px solid #22c55e;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <svg width="24" height="24" fill="#16a34a" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        <p style="font-weight: 700; color: #16a34a; font-size: 1.125rem;">Grupo Temporal - Nuevos Miembros</p>
+                    </div>
+                    <a href="https://chat.whatsapp.com/CBU-USur-Nuevos-Miembros" 
+                       target="_blank"
+                       style="display: block; font-size: 0.875rem; color: #374151; background: white; padding: 1rem; border-radius: 0.5rem; border: 1px solid #22c55e; word-break: break-all; text-decoration: none; transition: all 0.3s;"
+                       onmouseover="this.style.background='#f0fdf4'"
+                       onmouseout="this.style.background='white'">
+                        🔗 https://chat.whatsapp.com/CBU-USur-Nuevos-Miembros
+                    </a>
+                    <button onclick="window.open('https://chat.whatsapp.com/CBU-USur-Nuevos-Miembros', '_blank')"
+                            style="width: 100%; margin-top: 1rem; background: #25D366; color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s;"
+                            onmouseover="this.style.background='#20BA5A'"
+                            onmouseout="this.style.background='#25D366'">
+                        <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        Abrir en WhatsApp
+                    </button>
+                </div>
+                <div style="background: #fef3c7; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; border: 1px solid #fbbf24;">
+                    <p style="color: #92400e; font-size: 0.875rem; display: flex; align-items: start; gap: 0.5rem;">
+                        <svg width="20" height="20" fill="#f59e0b" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;">
+                            <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                        </svg>
+                        <span><strong>Importante:</strong> Este es el grupo temporal para nuevos miembros. Una vez que tu registro sea validado por un administrador, serás añadido al grupo principal del CBU U-Sur.</span>
+                    </p>
+                </div>
+                <p style="color: #6b7280; margin-top: 1rem; text-align: center; font-size: 0.875rem;">
+                    Recibirás una notificación cuando seas aprobado como miembro oficial
+                </p>
+            `;
+            
+            document.getElementById('registrationForm').classList.add('hidden');
+            qrSection.classList.remove('hidden');
+            
+            setTimeout(() => {
+                alert('¡Registro exitoso! Únete al grupo temporal usando el botón de WhatsApp.\n\nUna vez aprobado tu registro, tendrás acceso al grupo principal.');
+                // No resetear el formulario para que puedan volver a ver los enlaces
+            }, 3000);
+        };
+
+        // Agregar información de WhatsApp en la vista Home
+        window.addEventListener('DOMContentLoaded', function() {
+            // Agregar información sobre WhatsApp en la sección de "Únete"
+            const homeView = document.getElementById('homeView');
+            if (homeView) {
+                const uneteSection = homeView.querySelector('.gradient-purple-blue');
+                if (uneteSection) {
+                    const whatsappInfo = document.createElement('div');
+                    whatsappInfo.style.cssText = 'margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2);';
+                    whatsappInfo.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; color: white;">
+                            <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                            <span style="font-size: 0.875rem; opacity: 0.95;">Acceso al grupo de WhatsApp al registrarte</span>
+                        </div>
+                    `;
+                    uneteSection.appendChild(whatsappInfo);
+                }
+            }
+        });
+
+        // Inicializar el botón de WhatsApp al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            updateWhatsAppButton();
+        });
+    </script>
+</body>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcqdMcaQDD9f8GjyfWtfjIzQaT8c65m-M",
+    authDomain: "cbu-web-d2d20.firebaseapp.com",
+    projectId: "cbu-web-d2d20",
+    storageBucket: "cbu-web-d2d20.firebasestorage.app",
+    messagingSenderId: "969946455263",
+    appId: "1:969946455263:web:d2cfc9978154462cd69d6a",
+    measurementId: "G-GQX2NF7GKW"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</html>

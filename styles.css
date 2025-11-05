@@ -1,0 +1,800 @@
+/* ========================================
+   CBU U-Sur - Estilos CSS
+   ======================================== */
+
+/* ===========================================
+   ESTILOS GLOBALES (Compartidos)
+   =========================================== */
+
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f3e7ff 0%, #e0f2fe 100%);
+}
+
+/* Estilos de navegación */
+nav.main-nav {
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    width: 100%;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-brand:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.nav-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Logo y círculos */
+.logo-circle {
+    width: 96px;
+    height: 96px;
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-circle.small {
+    width: 48px;
+    height: 48px;
+    margin: 0;
+}
+
+/* Contenedor principal */
+.main-container {
+    padding: 0 1rem;
+    min-height: calc(100vh - 70px);
+}
+
+/* Vista de registro */
+.register-view {
+    padding-top: 4rem;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.register-container {
+    max-width: 600px;
+    width: 100%;
+    padding: 0 1rem;
+    animation: slideDown 0.5s ease-out;
+    margin: 128px 0px 0px 0px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #f3e7ff 0%, #e0f2fe 100%);
+    border-radius: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.hero-quote {
+    font-size: 1.125rem;
+    color: #374151;
+    font-style: italic;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Secciones */
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #a855f7;
+    margin-bottom: 1rem;
+}
+
+.section-title.blue {
+    color: #3b82f6;
+}
+
+.section-text {
+    font-size: 1.125rem;
+    color: #374151;
+    line-height: 1.7;
+}
+
+.section-text strong {
+    color: inherit;
+    font-weight: 700;
+}
+
+/* Formularios */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-header {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #a855f7;
+    margin-bottom: 1.5rem;
+}
+
+.form-description {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+/* Contenedores de información */
+.info-container {
+    color: #374151;
+    font-size: 1.125rem;
+    line-height: 1.7;
+}
+
+.info-container p {
+    margin-bottom: 1rem;
+}
+
+.info-container p:last-child {
+    margin-bottom: 0;
+}
+
+/* Call to Action */
+.cta-section {
+    text-align: center;
+    color: white;
+}
+
+.cta-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.cta-button {
+    background: white;
+    color: #a855f7;
+    font-size: 1.125rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Utilidades generales */
+.hidden {
+    display: none !important;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Gradientes */
+.gradient-bg {
+    background: linear-gradient(135deg, #f3e7ff 0%, #e0f2fe 100%);
+}
+
+.gradient-purple-blue {
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+}
+
+/* Cards y contenedores */
+/* Card base */
+.card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Card de registro */
+.register-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    width: 100%;
+    position: relative;
+}
+
+/* Card de login */
+.login-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+}
+
+/* Card de posts */
+.post-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Card de administración */
+.admin-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Card de estado (loading, no posts) */
+.status-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Card de sección */
+.section-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+/* Botones Base */
+.btn {
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    line-height: 1.5;
+}
+
+/* Botón de la barra de navegación */
+.nav-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+    color: white;
+}
+
+.nav-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+}
+
+/* Botón de registro (formulario) */
+.register-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+    color: white;
+    margin-top: 1rem;
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+}
+
+/* Botón de éxito (verde) */
+.btn-success {
+    background: #10b981;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
+/* Botón de peligro (rojo) */
+.btn-danger {
+    background: #ef4444;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+/* Botón con icono */
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #6b7280;
+    transition: color 0.3s;
+}
+
+.btn-icon:hover {
+    color: #a855f7;
+}
+
+/* Botón CTA (Call to Action) */
+.cta-btn {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    background: white;
+    color: #a855f7;
+    font-weight: 700;
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Campos de entrada */
+.input-field {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+/* Navegación */
+.nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1rem;
+}
+
+.nav-link:hover {
+    background: #f3e7ff;
+}
+
+.nav-link.active {
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+    color: white;
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+.mobile-menu.show {
+    display: flex;
+}
+
+/* Media Input */
+.media-input {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.media-preview {
+    margin-top: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    max-height: 300px;
+}
+
+.media-preview img,
+.media-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-preview.error {
+    border-color: #ef4444;
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+/* Posts */
+.post {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.post-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-content {
+    padding: 1rem;
+}
+
+.post-actions {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.3s;
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+}
+
+.action-btn:hover {
+    color: #a855f7;
+}
+
+/* Comentarios */
+.comment {
+    background: #f9fafb;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Hero y logo */
+.hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #f3e7ff 0%, #e0f2fe 100%);
+    border-radius: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.logo-circle {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* QR Code */
+.qr-code {
+    width: 256px;
+    height: 256px;
+    margin: 0 auto;
+    background: white;
+    border: 4px solid #a855f7;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.qr-code img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 1rem;
+}
+
+.qr-placeholder {
+    text-align: center;
+    padding: 2rem;
+}
+
+.qr-placeholder .emoji {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+}
+
+.qr-placeholder .text {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.qr-container {
+    background: #f3e7ff;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.qr-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #a855f7;
+    margin-bottom: 1rem;
+}
+
+.qr-description {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #a855f7;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Badges */
+.admin-badge {
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    color: #92400e;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pending-badge {
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    color: #92400e;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* User cards (admin) */
+.user-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botón flotante de WhatsApp */
+#whatsappButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#whatsappButton a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #25D366;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    animation: pulse 2s infinite;
+}
+
+#whatsappButton a:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+#whatsappTooltip {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    font-size: 0.875rem;
+    color: #374151;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#whatsappButton:hover #whatsappTooltip {
+    opacity: 1;
+}
+
+.whatsapp-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 2px solid white;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none;
+    }
+    
+    #whatsappButton {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    #whatsappButton a {
+        width: 56px;
+        height: 56px;
+    }
+    
+    #whatsappButton svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .hero {
+        padding: 3rem 1rem;
+    }
+    
+    .card {
+        padding: 1.5rem;
+    }
+    
+    .section-card {
+        padding: 1.5rem;
+    }
+}
